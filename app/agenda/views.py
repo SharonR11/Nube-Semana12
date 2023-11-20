@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
-
+from django.forms.models import model_to_dict
+from django.http import JsonResponse, HttpRequest
 from .models import Persona
 from django.db.models import Q
 
@@ -73,3 +73,11 @@ def eliminar(request, idPersona):
     persona = Persona.objects.get(idPersona=idPersona)
     persona.delete()
     return redirect('/')
+
+def is_ajax(request: HttpRequest) -> bool:
+    return request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+def buscar(request):
+    apellido = request.GET.get('apellido', '')
+    persona_list = Persona.objects.filter(apellido__icontains=apellido)
+    return render(request, 'plantilla/menu.html', {'persona_list': persona_list})

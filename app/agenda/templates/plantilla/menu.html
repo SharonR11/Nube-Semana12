@@ -53,7 +53,15 @@
                 </div>
                 <div class="col-8">
                     <h1>Agenda de Contactos</h1>
-                    <div>
+                    <div class="mb-3">
+                        <!-- Campo de búsqueda por apellido -->
+                        <form id="formBusqueda" method="get">
+                            <label for="apellido">Buscar por Apellido:</label>
+                             <input type="text" class="form-control" id="apellido" name="apellido" value="{{apellido}}" placeholder="Ingrese el apellido">
+                            <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+                        </form>
+                    </div>
+                    <div id="resultadosBusqueda">
                         <table class="table table-sm smaller-width table-auto">
                             <thead>
                                 <tr>
@@ -68,22 +76,47 @@
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                {% for p in persona_list %}
+                                {% if not apellido%}
+                                    {% for p in persona_list %}
+                                        <tr>
+                                            <th scope="row">{{p.idPersona}}</th>
+                                            <td>{{p.nombre}}</td>
+                                            <td>{{p.apellido}}</td>
+                                            <td>{{p.email}}</td>
+                                            <td>{{p.celular}}</td>
+                                            <td>{{p.fecha_nac}}</td>
+                                            <td>{{p.foto}}</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
+                                                <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                
+                                    {% endfor %}
+                                {% else %}
+                                    {% if persona_list %}
+                                        {% for p in persona_list %}
+                                            <tr>
+                                                <th scope="row">{{p.idPersona}}</th>
+                                                <td>{{p.nombre}}</td>
+                                                <td>{{p.apellido}}</td>
+                                                <td>{{p.email}}</td>
+                                                <td>{{p.celular}}</td>
+                                                <td>{{p.fecha_nac}}</td>
+                                                <td>{{p.foto}}</td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
+                                                    <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
+                                                </td>
+                                            </tr>
+                
+                                        {% endfor %}
+                                    {% else %}
                                     <tr>
-                                        <th scope="row">{{p.idPersona}}</th>
-                                        <td>{{p.nombre}}</td>
-                                        <td>{{p.apellido}}</td>
-                                        <td>{{p.email}}</td>
-                                        <td>{{p.celular}}</td>
-                                        <td>{{p.fecha_nac}}</td>
-                                        <td>{{p.foto}}</td>
-                                        <td>
-                                            <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
-                                            <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
-                                        </td>
+                                        <td colspan="8">No se encontraron resultados</td>
                                     </tr>
-            
-                                {% endfor %}
+                                    {% endif %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -94,5 +127,20 @@
 </body>
 <script>
     feather.replace()
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.getElementById('formBusqueda').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let apellido = document.getElementById('apellido').value;
+
+    fetch(`?apellido=${apellido}`)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('resultadosBusqueda').innerHTML = data;
+        });
+});
+
 </script>
 </html>
