@@ -2,6 +2,9 @@
 from pathlib import Path
 import dj_database_url
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -68,12 +71,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbinicial',
-        'HOST':'database.cqzigpaelisx.us-east-2.rds.amazonaws.com',
-        'USER':'admin',
-        'PASSWORD':'123456789',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbpostgree',
+        'USER': 'sharon',
+        'PASSWORD': '123456789',
+        'PORT': '5432',
+        'HOST': 'dbpostgree.cqzigpaelisx.us-east-2.rds.amazonaws.com',
     }
 }
 
@@ -97,8 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Configuración para usar Amazon S3 como almacenamiento
-AWS_ACCESS_KEY_ID = 'AKIA6KVBSBUMH23WAHVY'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'bucket-nube'
 AWS_S3_REGION_NAME = 'us-east-2'  # por ejemplo, 'us-west-1'
 
