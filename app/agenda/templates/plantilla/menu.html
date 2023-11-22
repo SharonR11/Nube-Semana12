@@ -14,92 +14,123 @@
 <body>
     <section class="content">
         <div class="container">
-            <div class="row mt-2">
-                <div class="col-4">
-                    <h3>Ingresar Contacto</h3>
-                    <div style="max-width: 300px;">
-                        <form action="/registrar/" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                              <div class="row ">
-                                  <div class="col-12">
-                                      <label for="" class="form-label">Nombres</label>
-                                      <input type="text" class="form-control" name="txtnombre" required>
-                                  </div>
-                                  <div class="col-12">
-                                      <label for="" class="form-label">Apellidos</label>
-                                      <input type="text" class="form-control" name="txtapellido" required>
-                                  </div>
-                                  <div class="col-12">
-                                      <label for="" class="form-label">Email</label>
-                                      <input type="email" step="any" class="form-control" name="txtemail" required>
-                                  </div>
-                                  <div class="col-12">
-                                      <label for="address" class="form-label">Celular</label>
-                                      <input type="number" class="form-control" name="txtcelular" required>
-                                  </div>
-                                  <div class="col-12">
-                                      <label for="address" class="form-label">Fecha de Nacimiento</label>
-                                      <input type="date" class="form-control" name="txtfecha_nac" required>
-                                  </div>
-                                  <div class="col-12">
-                                      <label for="address" class="form-label">Foto</label>
-                                      <input type="file" class="form-control" name="txtfoto" required>
-                                  </div>
-                              </div>
-                              <hr class="my-4">
-                              <button class="w-100 btn btn-primary btn-lg" type="submit">Registrar</button>            
-                        </form>
-                    </div>
-                </div>
-                <div class="col-8">
-                    <h1>Agenda de Contactos</h1>
-                    <div class="mb-3">
-                        <!-- Campo de búsqueda por apellido -->
-                        <form id="formBusqueda" method="get">
-                            <label for="apellido">Buscar por Apellido:</label>
-                             <input type="text" class="form-control" id="apellido" name="apellido" value="{{apellido}}" placeholder="Ingrese el apellido">
-                            <button type="submit" class="btn btn-primary mt-2">Buscar</button>
-                        </form>
-                    </div>
-                    <div class="container text-center" id="resultadosBusqueda">
-                        
-                        <div class="container text-center">
-                            <div class="row row-cols-3">
-                                {% for p in persona_list %}
-                                    <div class="col">
-                                        <div class="card mb-3" style="max-width: 100%; max-height: max-content;
-                                                border-left: 2px solid #bb6868; border-radius: 10px;">
-                                            <div class="row g-0" >
-                                                <div class="col-md-5">
-                                                    <a href="/perfil/{{p.idPersona}}">
-                                                        <img src="{{p.foto.url}}" class="img-fluid w-100  rounded-start" >
-                                                    </a>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <div class="card-body" style="height: 90px;"> 
-                                                        <h5 class="text-start" style="font-weight: bold;;font-size: 10px; margin-bottom: 0;">{{p.nombre}}</h5>
-                                                        <p class="text-start" style="font-size: 10px; margin-bottom: 0;font-style: italic">{{p.celular}}</p>
-                                                        <p class="text-start" style="font-size: 10px; margin-bottom: 0;font-style: italic">{{p.fecha_nac}}</p>
-                                                        <div class="row row-cols-2">
-                                                            <div class="col">
-                                                                <a href="/data/{{p.idPersona}}">
-                                                                    <i data-feather="edit-3" style="width: 12px;height: 12px;"></i></a>
-                                                            </div>
-                                                            <div class="col">
-                                                                <a href="/eliminar/{{p.idPersona}}" style="color: red;">
-                                                                    <i data-feather="trash-2"  style="width: 12px;height: 12px;"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+            <div class="row g-5 p-3 ">
+                <div class=" col-sm-8 col-md-8 col-lg-8">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text"><h1>Listado de alumnos</h1></span>
+                        <span class="badge bg-primary rounded-pill">Tecsup</span>
+                    </h4>
+                    <br>
+                    <table class="table bg-white rounded-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Código</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Fecha de Nacimiento</th>
+                                <th scope="col">Foto</th>
+                                <th scope="col" colspan="2">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for p in persona_list %}
+                        <tr>
+                            <th scope="row">{{ p.idPersona }}</th>
+                            <td>{{ p.nombre }}</td>
+                            <td>{{ p.apellido }}</td>
+                            <td>{{ p.email }}</td>
+                            <td>{{ p.fecha_nac }}</td>
+                            <td><img src="{{ p.foto.url}}" style="max-width: 50px; max-height: 50px;"></td>
+                            <td>
+                                <a href="/data/{{ p.idPersona}}" style="color: rgb(0, 51, 255);"><i
+                                    data-feather="edit-3"></i></a>
+                                    <a href="/eliminar/{{ p.idPersona}}" style="color: red;"><i
+                                            data-feather="trash-2"></i></a>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="modal{{ p.idPersona }}" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
+                                        <div class="modal-body">
+                                            <form action="/editar/{{ p.idPersona }}/" method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <label>Nombres</label>
+                                                <input type="text" class="form-control mb-3" name="nombre"
+                                                       value="{{ p.nombre }}">
+                                                <label>Apellidos</label>
+                                                <input type="text" class="form-control mb-3" name="apellidos"
+                                                       value="{{ p.apellidos }}">
+                                                <label>Email</label>
+                                                <input type="email" class="form-control mb-3" name="email"
+                                                       value="{{ p.email }}">
+                                                <label>Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control mb-3" name="fecha_nacimiento"
+                                                       value="{{ p.fecha_nac }}">
+                                                <label>Foto</label>
+                                                <input type="file" name="foto" accept="image/*" class="form-control mb-3">
+                                                <img src="{{ p.foto}}"  style="max-width: 100px; max-height: 100px;">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                        </div>
+                                        </form>
                                     </div>
-                                {% endfor %}
+                                </div>
                             </div>
-                        </div>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-sm-4 col-md-4 col-lg-4 bg-white rounded-4">
+                    <h4 class="mb-2 p-3">Registrar Alumno</h4>
+                    <form action="/registrar/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row ">
+                            <div class="col-12">
+                                <label for="" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="txtnombre" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="" class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" name="txtapellido" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="" class="form-label">Email</label>
+                                <input type="email" step="any" class="form-control" name="txtemail" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">Celular</label>
+                                <input type="number" class="form-control" name="txtcelular" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" name="txtfecha_nac" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">Foto</label>
+                                <input type="file" class="form-control" name="txtfoto" required>
+                            </div>
                         
-                    </div>
+                        </div>
+                        <hr class="my-4">
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Registrar</button>
+                    </form>
+                    <br>
+                </div>
+                
+
+
                 </div>
             </div>
         </div>

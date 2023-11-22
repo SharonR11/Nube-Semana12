@@ -77,7 +77,7 @@ DATABASES = {
         'USER': 'sharon',
         'PASSWORD': '123456789',
         'PORT': '5432',
-        'HOST': 'dbpostgree.clwk8tfnvcwv.us-east-1.rds.amazonaws.com',
+        'HOST': 'dbpostgree.cqzigpaelisx.us-east-2.rds.amazonaws.com',
     }
 }
 
