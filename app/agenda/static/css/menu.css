@@ -25,6 +25,11 @@ h2 {
     font-size: 32px; /* Establece el tamaño de fuente en 34px */
     color: black;
 }
+.nombre{
+    font-weight: bold; /* Aplica negrita */
+    font-size: 22px; /* Establece el tamaño de fuente en 34px */
+    color: black;
+}
 
 .header-title {
     position: relative;

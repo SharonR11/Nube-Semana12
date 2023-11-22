@@ -81,3 +81,9 @@ def buscar(request):
     apellido = request.GET.get('apellido', '')
     persona_list = Persona.objects.filter(apellido__icontains=apellido)
     return render(request, 'plantilla/menu.html', {'persona_list': persona_list})
+
+
+def perfil(request,idPersona):
+    persona=Persona.objects.get(idPersona=idPersona)
+    context={"persona":persona}
+    return render(request, 'plantilla/perfil.html', context)

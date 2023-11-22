@@ -14,7 +14,7 @@
 <body>
     <section class="content">
         <div class="container">
-            <div class="row mt-2">
+            <div class="row">
                 <div class="col-4">
                     <h3>Ingresar Contacto</h3>
                     <div style="max-width: 300px;">
@@ -48,7 +48,7 @@
                               </div>
                               <hr class="my-4">
                               <button class="w-100 btn btn-primary btn-lg" type="submit">Registrar</button>            
-                        </form>
+                          </form>
                     </div>
                 </div>
                 <div class="col-8">
@@ -61,34 +61,44 @@
                             <button type="submit" class="btn btn-primary mt-2">Buscar</button>
                         </form>
                     </div>
-                    <div class="container text-center" id="resultadosBusqueda">
-                        
-                        <div class="container text-center">
-                            <div class="row row-cols-3">
-                                {% for p in persona_list %}
-                                    <div class="col">
-                                        <div class="card mb-3" style="max-width: 100%; max-height: max-content;
-                                                border-left: 2px solid #bb6868; border-radius: 10px;">
-                                            <div class="row g-0" >
-                                                <div class="col-md-5">
-                                                    <a href="/perfil/{{p.idPersona}}">
-                                                        <img src="{{p.foto.url}}" class="img-fluid w-100  rounded-start" >
-                                                    </a>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <div class="card-body" > 
-                                                        <h5 class="text-start" style="font-weight: bold;;font-size: 10px; margin-bottom: 1;">{{p.nombre}}</h5>
-                                                        <p class="text-start" style="font-size: 10px; margin-bottom: 0;font-style: italic">{{p.celular}}</p>
-                                                        <p class="text-start" style="font-size: 10px; margin-bottom: 0;font-style: italic">{{p.fecha_nac}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        
+                    <div id="resultadosBusqueda">
+                        <table class="table table-sm smaller-width table-auto">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Celular</th>
+                                    <th scope="col">Fecha de Nacimiento</th>
+                                    <th scope="col">Foto</th>
+                                    <th scope="col" colspan="2">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                
+                                    {% for p in persona_list %}
+                                        <tr>
+                                            <th scope="row">{{p.idPersona}}</th>
+                                            <td>{{p.nombre}}</td>
+                                            <td>{{p.apellido}}</td>
+                                            <td>{{p.email}}</td>
+                                            <td>{{p.celular}}</td>
+                                            <td>{{p.fecha_nac}}</td>
+                                            <!-- <td>{{p.foto}}</td> -->
+                                            <td><img src="{{p.foto.url}}" style="width: 100px; height: 100px;" alt="foto"></td>
+                                            
+                                            <td>
+                                                <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
+                                                <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                
+                                    {% endfor %}
+                                
+                                    
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -100,4 +110,17 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    document.getElementById('formBusqueda').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let apellido = document.getElementById('apellido').value;
+
+    fetch(`?apellido=${apellido}`)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('resultadosBusqueda').innerHTML = data;
+        });
+});
+
+</script>
 </html>
