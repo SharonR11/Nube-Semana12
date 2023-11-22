@@ -76,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                {% if not apellido%}
+                                
                                     {% for p in persona_list %}
                                         <tr>
                                             <th scope="row">{{p.idPersona}}</th>
@@ -85,7 +85,9 @@
                                             <td>{{p.email}}</td>
                                             <td>{{p.celular}}</td>
                                             <td>{{p.fecha_nac}}</td>
-                                            <td>{{p.foto}}</td>
+                                            <!-- <td>{{p.foto}}</td> -->
+                                            <td><img src="{{p.foto.url}}" style="width: 100px; height: 100px;" alt="foto"></td>
+                                            
                                             <td>
                                                 <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
                                                 <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
@@ -93,30 +95,8 @@
                                         </tr>
                 
                                     {% endfor %}
-                                {% else %}
-                                    {% if persona_list %}
-                                        {% for p in persona_list %}
-                                            <tr>
-                                                <th scope="row">{{p.idPersona}}</th>
-                                                <td>{{p.nombre}}</td>
-                                                <td>{{p.apellido}}</td>
-                                                <td>{{p.email}}</td>
-                                                <td>{{p.celular}}</td>
-                                                <td>{{p.fecha_nac}}</td>
-                                                <td>{{p.foto}}</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-sm"  href="/data/{{p.idPersona}}">Edit</a>
-                                                    <a href="/eliminar/{{p.idPersona}}" style="color: red;"><i data-feather="trash-2"></i></a>
-                                                </td>
-                                            </tr>
-                
-                                        {% endfor %}
-                                    {% else %}
-                                    <tr>
-                                        <td colspan="8">No se encontraron resultados</td>
-                                    </tr>
-                                    {% endif %}
-                                {% endif %}
+                                
+                                    
                             </tbody>
                         </table>
                     </div>
