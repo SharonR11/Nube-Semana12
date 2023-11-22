@@ -76,11 +76,11 @@ DATABASES = {
         'USER': 'sharon',
         'PASSWORD': '123456789',
         'PORT': '5432',
-        'HOST': 'dbpostgree.cqzigpaelisx.us-east-2.rds.amazonaws.com',
+        'HOST': 'dbpostgree.clwk8tfnvcwv.us-east-1.rds.amazonaws.com',
     }
 }
 
-DATABASES ["default"] = dj_database_url.parse("postgres://lab5_gc4o_user:SNDreeQG4Idf0GUWWXkEE9uUNxEtxDLD@dpg-ckad6nugtj9c73fbn6j0-a.oregon-postgres.render.com/lab5_gc4o")
+# DATABASES ["default"] = dj_database_url.parse("postgres://lab5_gc4o_user:SNDreeQG4Idf0GUWWXkEE9uUNxEtxDLD@dpg-ckad6nugtj9c73fbn6j0-a.oregon-postgres.render.com/lab5_gc4o")
 
 
 AUTH_PASSWORD_VALIDATORS = [
