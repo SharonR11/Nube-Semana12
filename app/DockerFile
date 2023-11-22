@@ -4,6 +4,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /
 
+RUN pip install python-dotenv
 RUN apk update && apk --no-cache add mariadb-dev build-base pkgconfig
 
 COPY requirements.txt .
